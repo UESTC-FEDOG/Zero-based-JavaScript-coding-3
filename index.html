@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="@lhg">
+	<title>task 15</title>
+</head>
+<body>
+	<ul id="source">
+		<li>北京空气质量：<b>90</b></li>
+		<li>上海空气质量：<b>70</b></li>
+		<li>天津空气质量：<b>80</b></li>
+		<li>广州空气质量：<b>50</b></li>
+		<li>深圳空气质量：<b>40</b></li>
+		<li>福州空气质量：<b>32</b></li>
+		<li>成都空气质量：<b>90</b></li>
+	</ul>
+
+	<ul id="resort">
+	</ul>
+	<button id="sort-btn">排序</button>
+</body>
+	<script>
+		function getData() {
+			var list = Array.prototype.slice.call(document.getElementById('source').children, 0),
+				data = [];
+			list.forEach(function(item, index, array) {
+				var str = item.innerText,
+					str1 = str.slice(0,2),
+					num = Number(str.slice(-2));
+					data.push([str1,num]);
+			})
+			return data;
+		}
+
+		function sortAqiData(data) {
+			return data.sort(function(value1, value2){
+				return value1[1] - value2[1];
+			})
+		}
+
+		function render(data) {
+			var str = "",
+				resort = document.getElementById('resort');
+			data.forEach(function(item, index, array) {
+				index += 1;
+				str += "<li>第" + index + "名:" + item[0] + "空气质量：<b>" + item[1] + "</b></li>";
+			})
+			resort.innerHTML = str;
+		}
+
+		function btnHandle() {
+			var aqiData = getData();
+			aqiData = sortAqiData(aqiData);
+			render(aqiData);
+		}
+
+		function init() {
+			var btn = document.getElementById('sort-btn');
+			btn.addEventListener('click', function(){
+				btnHandle();
+			})
+		}
+		init();
+	</script>
+</html>
