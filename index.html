@@ -22,13 +22,15 @@
 </body>
 	<script>
 		function getData() {
-			var list = Array.prototype.slice.call(document.getElementById('source').children, 0),
+			var list = Array.prototype.slice.call(document.getElementById('source').children),
 				data = [];
+                
 			list.forEach(function(item, index, array) {
-				var str = item.innerText,
-					str1 = str.slice(0,2),
-					num = Number(str.slice(-2));
-					data.push([str1,num]);
+				var str = item.innerText || item.textContent,
+					cityName = str.slice(0,2),
+					airQuality = Number(str.slice(-2));
+				
+                data.push([cityName,airQuality]);
 			})
 			return data;
 		}
@@ -42,6 +44,7 @@
 		function render(data) {
 			var str = "",
 				resort = document.getElementById('resort');
+                
 			data.forEach(function(item, index, array) {
 				index += 1;
 				str += "<li>第" + index + "名:" + item[0] + "空气质量：<b>" + item[1] + "</b></li>";
@@ -50,16 +53,14 @@
 		}
 
 		function btnHandle() {
-			var aqiData = getData();
+			var aqiData = getData()
 			aqiData = sortAqiData(aqiData);
 			render(aqiData);
 		}
 
 		function init() {
 			var btn = document.getElementById('sort-btn');
-			btn.addEventListener('click', function(){
-				btnHandle();
-			})
+			btn.addEventListener('click', btnHandle)
 		}
 		init();
 	</script>
